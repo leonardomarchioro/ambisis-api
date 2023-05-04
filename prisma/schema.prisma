@@ -22,7 +22,22 @@ model Company {
   neighborhood String
   complement String
 
-  @@map("company")
+  licenses License[] @relation(name: "CompanyLicenses")
+
+  @@map("companies")
 }
 
+model License {
+  id Int @id @default(autoincrement())
 
+  number String
+  environmentalAgency String @map("environmental_agency")
+
+  issuance DateTime @default(now())
+  expiration DateTime 
+
+  companyId Int @map("company_id")
+  companies Company @relation(fields: [companyId], name: "CompanyLicenses", references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@map("license")
+}
