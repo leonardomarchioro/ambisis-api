@@ -2,7 +2,10 @@ import express, { Express } from "express";
 import cors from "cors";
 import "express-async-errors";
 
+// routers
 import companiesRouter from "./routes/companies.routes";
+
+// handlers
 import errorHandler from "./middlewares/error-handler.middleware";
 
 const app: Express = express();

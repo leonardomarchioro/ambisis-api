@@ -8,15 +8,37 @@ import deleteCompanyController from "../controllers/companies/delete-company.con
 
 // middlewares
 import ValidateDuplicateCNPJMiddleware from "../middlewares/companies/validate-duplicate-cnpj.middleware";
+import { expressYupMiddleware } from "express-yup-middleware";
+
+// validators
+import {
+  createCompanySchema,
+  updateCompanySchema,
+  deleteCompanySchema,
+} from "../validations/companies-schema.validation";
 
 const companiesRouter = Router();
 
-companiesRouter.post("/insert", ValidateDuplicateCNPJMiddleware, createCompanyController); 
+companiesRouter.post(
+  "/insert",
+  expressYupMiddleware({ schemaValidator: createCompanySchema }),
+  ValidateDuplicateCNPJMiddleware,
+  createCompanyController
+);
 
-companiesRouter.get("", listCompaniesController); 
+companiesRouter.get("", listCompaniesController);
 
-companiesRouter.patch('/update/:id', ValidateDuplicateCNPJMiddleware, updateCompanyController); 
+companiesRouter.patch(
+  "/update/:id",
+  expressYupMiddleware({ schemaValidator: updateCompanySchema }),
+  ValidateDuplicateCNPJMiddleware,
+  updateCompanyController
+);
 
-companiesRouter.delete('/delete/:id', deleteCompanyController);
+companiesRouter.delete(
+  "/delete/:id",
+  expressYupMiddleware({ schemaValidator: deleteCompanySchema }),
+  deleteCompanyController
+);
 
 export default companiesRouter;
