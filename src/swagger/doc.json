@@ -72,7 +72,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                    "$ref": "#/components/schemas/commonError"
+                  "$ref": "#/components/schemas/commonError"
                 }
               }
             }
@@ -130,7 +130,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                    "$ref": "#/components/schemas/commonError"
+                  "$ref": "#/components/schemas/commonError"
                 }
               }
             }
@@ -189,6 +189,175 @@
           }
         }
       }
+    },
+
+    "/licensa": {
+      "get": {
+        "summary": "List of licenses.",
+        "tags": ["License"],
+        "responses": {
+          "200": {
+            "description": "Licenses list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/License"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/licensa/insert": {
+      "post": {
+        "summary": "Registration of License.",
+        "tags": ["License"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/createLicenseReq"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "License created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/License"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/badRequest"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/licensa/update/{id}": {
+      "patch": {
+        "summary": "Update of license.",
+        "tags": ["License"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of license",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/updateLicenseReq"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "License updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/License"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/badRequest"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/commonError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/licensa/delete:id": {
+      "delete": {
+        "summary": "Delete license.",
+        "tags": ["License"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of license",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success message",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/badRequest"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error message",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/commonError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -196,39 +365,86 @@
       "createCompanyReq": {
         "type": "object",
         "properties": {
-            "legalName": { "type": "string"},
-            "cnpj": { "type": "string", "example": "34842760000168" },
-            "zipCode": { "type": "string", "example": "01001-000" },
-            "city": { "type": "string" },
-            "state": { "type": "string" },
-            "neighborhood": { "type": "string" },
-            "complement": { "type": "string" }
+          "legalName": { "type": "string" },
+          "cnpj": { "type": "string", "example": "34842760000168" },
+          "zipCode": { "type": "string", "example": "01001-000" },
+          "city": { "type": "string" },
+          "state": { "type": "string" },
+          "neighborhood": { "type": "string" },
+          "complement": { "type": "string" }
         },
-        "required": ["legalName", "cnpj", "zipCode", "city", "state", "neighborhood", "complement"]
+        "required": [
+          "legalName",
+          "cnpj",
+          "zipCode",
+          "city",
+          "state",
+          "neighborhood",
+          "complement"
+        ]
       },
       "updateCompanyReq": {
         "type": "object",
         "properties": {
-            "legalName": { "type": "string" },
-            "cnpj": { "type": "string", "example": "34842760000168" },
-            "zipCode": { "type": "string", "example": "01001-000" },
-            "city": { "type": "string" },
-            "state": { "type": "string" },
-            "neighborhood": { "type": "string" },
-            "complement": { "type": "string" }
+          "legalName": { "type": "string" },
+          "cnpj": { "type": "string", "example": "34842760000168" },
+          "zipCode": { "type": "string", "example": "01001-000" },
+          "city": { "type": "string" },
+          "state": { "type": "string" },
+          "neighborhood": { "type": "string" },
+          "complement": { "type": "string" }
         }
       },
       "Company": {
         "type": "object",
         "properties": {
-            "id": { "type": "integer" },
-            "legalName": { "type": "string" },
-            "cnpj": { "type": "string", "example": "34842760000168" },
-            "zipCode": { "type": "string", "example": "01001-000" },
-            "city": { "type": "string" },
-            "state": { "type": "string" },
-            "neighborhood": { "type": "string" },
-            "complement": { "type": "string" }
+          "id": { "type": "integer" },
+          "legalName": { "type": "string" },
+          "cnpj": { "type": "string", "example": "34842760000168" },
+          "zipCode": { "type": "string", "example": "01001-000" },
+          "city": { "type": "string" },
+          "state": { "type": "string" },
+          "neighborhood": { "type": "string" },
+          "complement": { "type": "string" }
+        }
+      },
+
+      "createLicenseReq": {
+        "type": "object",
+        "properties": {
+          "companyId": { "type": "integer" },
+          "number": { "type": "string" },
+          "environmentalAgency": { "type": "string" },
+          "issuance": { "type": "string", "example": "01/01/2023" },
+          "expiration": { "type": "string", "example": "01/01/2023" }
+        },
+        "required": [
+          "companyId",
+          "number",
+          "environmentalAgency",
+          "issuance",
+          "expiration"
+        ]
+      },
+      "updateLicenseReq": {
+        "type": "object",
+        "properties": {
+          "companyId": { "type": "integer" },
+          "number": { "type": "string" },
+          "environmentalAgency": { "type": "string" },
+          "issuance": { "type": "string", "example": "01/01/2023" },
+          "expiration": { "type": "string", "example": "01/01/2023" }
+        }
+      },
+      "License": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "companyId": { "type": "integer" },
+          "number": { "type": "string" },
+          "environmentalAgency": { "type": "string" },
+          "issuance": { "type": "string" },
+          "expiration": { "type": "string" }
         }
       },
 
@@ -238,16 +454,16 @@
           "errors": {
             "type": "object",
             "properties": {
-                "params": {
-                    "type": "array",
-                    "items": {
-                      "type": "object",
-                      "properties": {
-                        "message": { "type": "string" },
-                        "propertyPath": { "type": "string" }
-                      }
-                    }
-                },
+              "params": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string" },
+                    "propertyPath": { "type": "string" }
+                  }
+                }
+              },
               "body": {
                 "type": "array",
                 "items": {
@@ -264,10 +480,10 @@
       },
       "commonError": {
         "type": "object",
-                  "properties": {
-                    "status": { "type": "string" },
-                    "message": { "type": "string" }
-                  }
+        "properties": {
+          "status": { "type": "string" },
+          "message": { "type": "string" }
+        }
       }
     }
   }
