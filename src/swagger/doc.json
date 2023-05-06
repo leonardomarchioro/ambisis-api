@@ -1,0 +1,274 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0",
+    "title": "Companies API",
+    "description": "API for registration of companies and licenses for environmental projects."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:4000",
+      "description": "URL local"
+    }
+  ],
+  "paths": {
+    "/empresa": {
+      "get": {
+        "summary": "List of companies.",
+        "tags": ["Company"],
+        "responses": {
+          "200": {
+            "description": "Companies list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Company"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/empresa/insert": {
+      "post": {
+        "summary": "Registration of company.",
+        "tags": ["Company"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/createCompanyReq"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Company created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Company"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/badRequest"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                    "$ref": "#/components/schemas/commonError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/empresa/update/{id}": {
+      "patch": {
+        "summary": "Update of company.",
+        "tags": ["Company"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of company",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/updateCompanyReq"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Company updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Company"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/badRequest"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                    "$ref": "#/components/schemas/commonError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/empresa/delete:id": {
+      "delete": {
+        "summary": "Delete company.",
+        "tags": ["Company"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of company",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success message",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/badRequest"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error message",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/commonError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "createCompanyReq": {
+        "type": "object",
+        "properties": {
+            "legalName": { "type": "string"},
+            "cnpj": { "type": "string", "example": "34842760000168" },
+            "zipCode": { "type": "string", "example": "01001-000" },
+            "city": { "type": "string" },
+            "state": { "type": "string" },
+            "neighborhood": { "type": "string" },
+            "complement": { "type": "string" }
+        },
+        "required": ["legalName", "cnpj", "zipCode", "city", "state", "neighborhood", "complement"]
+      },
+      "updateCompanyReq": {
+        "type": "object",
+        "properties": {
+            "legalName": { "type": "string" },
+            "cnpj": { "type": "string", "example": "34842760000168" },
+            "zipCode": { "type": "string", "example": "01001-000" },
+            "city": { "type": "string" },
+            "state": { "type": "string" },
+            "neighborhood": { "type": "string" },
+            "complement": { "type": "string" }
+        }
+      },
+      "Company": {
+        "type": "object",
+        "properties": {
+            "id": { "type": "integer" },
+            "legalName": { "type": "string" },
+            "cnpj": { "type": "string", "example": "34842760000168" },
+            "zipCode": { "type": "string", "example": "01001-000" },
+            "city": { "type": "string" },
+            "state": { "type": "string" },
+            "neighborhood": { "type": "string" },
+            "complement": { "type": "string" }
+        }
+      },
+
+      "badRequest": {
+        "type": "object",
+        "properties": {
+          "errors": {
+            "type": "object",
+            "properties": {
+                "params": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "message": { "type": "string" },
+                        "propertyPath": { "type": "string" }
+                      }
+                    }
+                },
+              "body": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string" },
+                    "propertyPath": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "commonError": {
+        "type": "object",
+                  "properties": {
+                    "status": { "type": "string" },
+                    "message": { "type": "string" }
+                  }
+      }
+    }
+  }
+}
