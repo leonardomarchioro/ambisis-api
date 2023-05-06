@@ -245,6 +245,16 @@
                 }
               }
             }
+          },
+          "404": {
+            "description": "Company not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/commonError"
+                }
+              }
+            }
           }
         }
       }

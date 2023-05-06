@@ -8,6 +8,7 @@ import deleteLicenseController from "../controllers/licenses/delete-license.cont
 
 // middlewares
 import { expressYupMiddleware } from "express-yup-middleware";
+import validateCompanyMiddleware from "../middlewares/licenses/validate-company.middleware";
 
 // validators
 import {
@@ -21,6 +22,7 @@ const licensesRouter = Router();
 licensesRouter.post(
   "/insert",
   expressYupMiddleware({ schemaValidator: createLicenseSchema }),
+  validateCompanyMiddleware,
   createLicenseController
 );
 
@@ -29,6 +31,7 @@ licensesRouter.get("", listLicensesController);
 licensesRouter.patch(
   "/update/:id",
   expressYupMiddleware({ schemaValidator: updateLicenseSchema }),
+  validateCompanyMiddleware,
   updateLicenseController
 );
 
