@@ -9,6 +9,7 @@ import docJson from "./swagger/doc.json";
 
 // routers
 import companiesRouter from "./routes/companies.routes";
+import licensesRouter from "./routes/licenses.routes"
 
 // handlers
 import errorHandler from "./middlewares/error-handler.middleware";
@@ -24,6 +25,7 @@ app.use(
 app.use(express.json());
 
 app.use("/empresa", companiesRouter);
+app.use("/licensa", licensesRouter);
 
 app.get('/healph-check', (req, res) => res.send({ status: "UP" }))
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(docJson))

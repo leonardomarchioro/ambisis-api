@@ -15,7 +15,7 @@ import {
   createCompanySchema,
   updateCompanySchema,
   deleteCompanySchema,
-} from "../validations/companies-schema.validation";
+} from "../validations/companies-schemas.validation";
 
 const companiesRouter = Router();
 
