@@ -60,4 +60,4 @@ yarn dev
 
 # Documentação
 
-Após rodar a aplicação, clique no link [Doc - swagger](https://localhost:4000/docs) para abrir a documentação no swagger com exemplos.
+Após rodar a aplicação, clique no link [Doc - swagger](http://localhost:4000/docs) para abrir a documentação no swagger com exemplos.
